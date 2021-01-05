@@ -22,3 +22,12 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### 接口规范
+```js
+{
+  status: 0,
+  data: [],
+  msg: ''
+}
+```
