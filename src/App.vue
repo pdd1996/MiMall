@@ -10,6 +10,9 @@ export default {
   name: 'App',
   components: {
 
+  },
+  mounted() {
+
   }
 }
 </script>
@@ -24,3 +27,4 @@ export default {
   margin-top: 60px;
 }
 </style>
+ 
