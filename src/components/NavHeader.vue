@@ -9,9 +9,10 @@
           <a href="">协议规则</a>
         </div>
         <div class="topbar-user">
-          <a href="">登录</a>
-          <a href="">注册</a>
-          <a href="" class="my-cart"><span class="icon-cart"></span>购物车</a>
+          <a href="" v-if="username">{{username}}</a>
+          <a href="" v-if="!username" @click="login">登录</a>
+          <a href="" v-if="username">我的订单</a>
+          <a href="" class="my-cart" @click="gotoCart"><span class="icon-cart"></span>购物车</a>
         </div>
       </div>
     </div>
@@ -23,7 +24,17 @@
         <div class="header-menu">
           <div class="item-menu">
             <span>小米手机</span>
-            <div class="children"></div>
+            <div class="children">
+               <li class="product" v-for="(item, index) in phoneList" :key="index">
+                  <a :href="'/#/product/'+item.id" target="_blank">
+                    <div class="pro-img">
+                      <img :src="item.mainImage" :alt="item.subtitle">
+                    </div>
+                    <div class="pro-name">{{item.name}}</div>
+                    <div class="pro-price">{{item.price | currency}}</div>
+                  </a>
+                </li>
+            </div>
           </div>
           <div class="item-menu">
             <span>RedMi手机</span>
@@ -104,7 +115,41 @@
 
 <script>
 export default {
-  name: 'nav-header'
+  name: 'nav-header',
+  data() {
+    return {
+      // username: 'jack',
+      phoneList: []
+    }
+  },
+  filters: {
+    currency(val) {
+      if(!val) return '0.00';
+      return '￥' + val.toFixed(2) + '元';
+    }
+  },
+  mounted() {
+    this.getProductList();
+  },
+  methods: {
+    login() {
+      this.$router.push('/cart');
+    },
+    getProductList() {
+      this.axios.get('/products', {
+        params: {
+          categoryId: '100012'
+        }
+      }).then((res) => {
+        if(res.list.length > 6) {
+          this.phoneList = res.list.slice(0, 6);
+        }
+      })
+    },
+    gotoCart() {
+      this.$router.push('/cart');
+    }
+  }
 }
 </script>
 
