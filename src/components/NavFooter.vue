@@ -21,6 +21,7 @@ export default {
 </script>
 
 <style lang="scss" scope>
+// scope 局部样式
   .footer {
     height: 234px;
     border-top: 4px solid #FF6600;
