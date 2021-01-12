@@ -253,6 +253,9 @@ export default {
           width: 100%;
           height: 100%;
         }
+        .swiper-button-prev {
+          padding-left: 261px;
+        }
       }  
     }
   }
