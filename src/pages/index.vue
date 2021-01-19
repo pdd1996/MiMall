@@ -51,7 +51,7 @@
       </div>
       <div class="ads-box">
         <a :href="'/#/product/' + item.id" v-for="(item, index) in adsList" :key="index">
-          <img :src="item.img" alt="" />
+          <img v-lazy="item.img" alt="" />
         </a>
       </div>
       <div class="banner">
@@ -66,7 +66,7 @@
             <div class="wrapper">
               <div class="banner-left">
                 <a href="'/#/product/35'" >
-                  <img src="/imgs/mix-alpha.jpg" />
+                  <img v-lazy="'/imgs/mix-alpha.jpg'" />
                 </a>
               </div>
               <div class="list-box">
@@ -75,12 +75,12 @@
                     <span :class="{'new-pro': index % 2 === 0}" v-if="index % 2 === 0">新品</span>
                     <span :class="{'kill-pro': index % 2 !== 0}" v-if="index % 2 !== 0">新品</span>
                     <div class="item-img">
-                      <img :src="item.mainImage" alt="">
+                      <img v-lazy="item.mainImage" alt="">
                     </div>
                     <div class="item-info">
                       <h3>{{item.name}}</h3>
                       <p>{{item.subtitle}}</p>
-                      <p class="price">{{item.price}}元</p>
+                      <p class="price" @click="addCart(item.id)">{{item.price}}元</p>
                     </div>
                   </div>
                 </div>
@@ -89,11 +89,25 @@
          </div>
        </div>
     <ServiceBar></ServiceBar>
+    <modal 
+      title="提示" 
+      sureText="查看购物车" 
+      btnType="1" 
+      modalType="middle"
+      :showModal="showModal"
+      @submit="goToCart"
+      @cancle="showModal=false"
+    >
+      <template v-slot:body>
+        <p>商品添加成功！</p>
+      </template>
+    </modal>
   </div>
 </template>
 
 <script>
 import ServiceBar from '../components/ServiceBar'
+import Modal from '../components/Modal'
 import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 
@@ -103,6 +117,7 @@ export default {
     ServiceBar,
     Swiper,
     SwiperSlide,
+    Modal
   },
   directives: {
     swiper: directive
@@ -208,9 +223,8 @@ export default {
           img: '/imgs/ads/ads-4.jpg',
         }
       ],
-      phoneList: [
-        
-      ]
+      phoneList: [],
+      showModal: false
     }
   },
   mounted() {
@@ -227,6 +241,20 @@ export default {
         res.list = res.list.slice(6, 14);
         this.phoneList = [res.list.slice(0, 4),res.list.slice(4, 8) ]
       })
+    },
+    addCart() {
+      this.showModal = true;
+      // this.axios.post('/carts', {
+      //   productId: id,
+      //   selected: true
+      // }).then(() => {
+        
+      // }).catch(() => {
+      //   this.showModal = true;
+      // })
+    },
+    goToCart() {
+      this.$router.push('/cart');
     }
   },
 }
