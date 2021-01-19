@@ -5,6 +5,7 @@ import axios from 'axios'
  * 可以将axios挂载到vue实例上
  */
 import VueAxios from 'vue-axios'
+import VueLazyLoad from 'vue-lazyload'
 import App from './App.vue'
 // import env from './env'
 
@@ -44,6 +45,9 @@ axios.interceptors.response.use(function(response) {
 });
 
 Vue.use(VueAxios, axios);
+Vue.use(VueLazyLoad, {
+  loading: '/imgs/loading-svg/loading-bars.svg'
+})
 Vue.config.productionTip = false
 
 new Vue({
