@@ -23,7 +23,7 @@ export default {
   methods: {
     getUser() {
       this.axios.get('user').then((res) => {
-        this.$store.dispatch('saveUsernName', res.username)
+        this.$store.dispatch('saveUserName', res.username)
       })
     },
     getCartCount() {

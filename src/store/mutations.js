@@ -2,7 +2,7 @@
  * 商城Vuex-mutations
  */
 export default {
-  saveUsernName(state, username) {
+  saveUserName(state, username) {
     state.username = username
   },
   saveCartCount(state, count) {
