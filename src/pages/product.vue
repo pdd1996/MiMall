@@ -1,8 +1,8 @@
 <template>
   <div class="product">
-    <ProductParam>
+    <ProductParam :title="product.name">
       <template v-slot:buy>
-        <button class="btn ">立即购买</button>
+        <button class="btn" @click="buy">立即购买</button>
       </template>
     </ProductParam>
     <div class="content">
@@ -77,7 +77,7 @@ export default {
   data() {
     return {
       showSlide: false,
-      product:{},//商品信息
+      product:{}, //商品信息
       swiperOption: {
         autoplay:true,
         slidesPerView:3,
@@ -88,6 +88,21 @@ export default {
           clickable :true,
         }
       },
+    }
+  },
+  mounted() {
+    this.getProductInfo();
+  },
+  methods: {
+    getProductInfo() {
+      let id = this.$route.params.id;
+      this.axios.get(`/products/${id}`).then((res) => {
+        this.product = res;
+      })
+    },
+    buy() {
+      let id = this.$route.params.id;
+      this.$router.push(`/detail/${id}`);
     }
   }
 }
@@ -100,7 +115,6 @@ export default {
     .content {
       .item-bg {
         background: url("/imgs/product/product-bg-1.png") no-repeat center;
-        background-size: contain;
         height: 718px;
         text-align: center;
         h2 {
